@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+    <!-- ngForm gives us the access to the form -->
+    <form  (ngSubmit)="onSubmit()" #userForm="ngForm">
+      <div ngModelGroup="userData" #userData="ngModelGroup" id="user-data">
+        <!--           ngModelGroup is used in order to group form data-->
+        <!--               userForm.userData.username-->
+        <!--               #userData="ngModelGroup" <=> ngModelGroup="userData"-->
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input #username="ngModel" type="text" id="username" class="form-control" placeholder="Username"
+                 [ngModel]="user.username" name="username" required
+          />
+          <span class="help-block" *ngIf="!username.valid && username.touched">Please provide a valid Username</span>
+        </div>
+        <button class="btn btn-default" type="button" (click)="suggestUsername()">Suggest an Username</button>
+        <div class="form-group">
+          <label for="email">Mail</label>
+          <!-- email is required and must be a valid email thanks to 'email' directive -->
+          <input type="email" id="email" class="form-control invalid" placeholder="Email"
+                 [ngModel]="user.email" name="email" #email="ngModel" required email
+          />
+          <span class="help-block" *ngIf="!email.valid && email.touched">Please provide a valid Email Address</span>
+        </div>
+      </div>
+
+      <span class="help-block" *ngIf="!userData.valid && userData.touched" >Username or email is not valid</span>
+
+      <div class="form-group">
+        <label for="secret">Secret Questions</label>
+        <select id="secret" class="form-control" [ngModel]="user.secretQuestion" name="secret" #secretQuestion>
+          <option value="pet">Your first Pet?</option>
+          <option value="teacher">Your first teacher?</option>
+        </select>
+        <span class="help-block" *ngIf="!secretQuestion.valid && secretQuestion.touched">Please provide a valid Select Secret Question</span>
+      </div>
+      <div class="form-group">
+          <textarea name="questionAnswer" rows="4" class="form-control"
+                    [(ngModel)]="user.questionAnswer" required #questionAnswer="ngModel"></textarea>
+      </div>
+      <div class="form-group">
+        <p>Your reply: {{ user.questionAnswer }}</p>
+      </div>
+      <div class="radio" *ngFor="let gender of genders">
+        <label>
+          <input type="radio" name="gender" [value]="gender" ngModel [checked]="user.gender === gender" required />
+          {{ gender }}
+        </label>
+      </div>
+      <span class="help-block" *ngIf="!questionAnswer.valid && questionAnswer.touched">Please provide a valid answer</span>
+      <button class="btn btn-primary" type="submit" [disabled]="!userForm.valid">Submit</button>
+    </form>
+  </div>
+</div>
+
+<hr>
+
+<div class="row" *ngIf="submitted">
+  <div class="col-xs-12">
+    <h3>Your Data</h3>
+    <p>Username: {{ user.username }}</p>
+    <p>Mail: {{ user.email }}</p>
+    <p>Secret Question: {{ user.secretQuestion }}</p>
+    <p>Answer: {{ user.questionAnswer }}</p>
+    <p>Gender: {{ user.gender }}</p>
+  </div>
+</div>
