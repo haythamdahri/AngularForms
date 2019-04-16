@@ -1,11 +1,10 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {FormControl, NgForm} from '@angular/forms';
-import {UserModel} from './user.model';
+import {Component, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  // encapsulation: ViewEncapsulation.ShadowDom
 })
 export class AppComponent {
 
